@@ -73,7 +73,12 @@ const LoginPage = () => {
       </form>
       <div style={{ textAlign: 'center', marginTop: 20 }}>
         <Link to="/forgot-password" className="text-sm text-blue-600 hover:underline">Forgot password?</Link>
-        <a href="#" style={{ color: '#2871fa', textDecoration: 'none', margin: '0 8px', fontSize: '0.95rem' }}>Create Account</a>
+        <p className="text-center text-sm text-gray-600 mt-4">
+         Don’t have an account?{" "}
+         <Link to="/create-account" className="text-blue-600 hover:underline">
+          Create one
+         </Link>
+        </p>
       </div>
     </div>
   );
