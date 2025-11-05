@@ -1,0 +1,105 @@
+# ==============================
+# 📦 Node / General
+# ==============================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+package-lock.json
+
+# Logs
+logs
+*.log
+
+# Diagnostic reports
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Build / Cache folders
+dist/
+build/
+.cache/
+.temp/
+.vite/
+vite-cache/
+.parcel-cache/
+
+# Coverage
+coverage/
+*.lcov
+.nyc_output
+
+# Lock and cache files
+.eslintcache
+.stylelintcache
+.rpt2_cache/
+.rts2_cache_*/
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# ==============================
+# ⚙️ Environment Files
+# ==============================
+.env
+.env.*
+!.env.example  # keep example env if you create one
+
+# ==============================
+# 🖥️ Frontend (Vite / React)
+# ==============================
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/.env
+frontend/.env.*
+
+# ==============================
+# 🧠 Backend (Express / Node)
+# ==============================
+backend/node_modules/
+backend/dist/
+backend/build/
+backend/.env
+backend/.env.*
+
+# ==============================
+# 🧪 Testing / Tools
+# ==============================
+.vscode-test
+coverage/
+lib-cov
+.nyc_output
+.grunt
+
+# ==============================
+# 🗂️ IDE / OS Files
+# ==============================
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
+
+# ==============================
+# 🗃️ Optional: Static / Deployment
+# ==============================
+# Ignore generated static output (if any)
+out/
+.next/
+.nuxt/
+.docusaurus/
+.serverless/
