@@ -3,9 +3,15 @@ import dotenv from "dotenv";
 import sequelize from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import cors from "cors";
 
 dotenv.config();
 const app = express();
+
+app.use(cors({
+  origin: "http://localhost:8080",
+  credentials: true,
+}));
 
 app.use(express.json());
 app.use("/api/auth", authRoutes);

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
+const API_BASE = import.meta.env.VITE_API_BASE;
+
 const LoginPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
