@@ -1,7 +1,53 @@
-import React from 'react';
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom'
 
 const LoginPage = () => {
+
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    setError('');
+    
+    if(!email.trim() || !password) {
+      setError('Please enter an e-mail and a password.');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type' : 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email: email.trim().toLowerCase(), password})
+      });
+
+      const data = await (res.headers.get('content-type') || '').includes('application/json')
+      ? await res.json()
+      : null;
+
+      if(res.ok) {
+        if(data && data.token) {
+          localStorage.setItem('auth_token', data.token);
+        }
+        navigate('/home');
+      } else {
+        setError((data && data.error) || (res.status === 401 ? 'Invalid Credentials.' : 'Login Failed'));
+      }
+    } catch(err) {
+      console.error('Login Error: ', err);
+      setError('Network Error - please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div style={{
       width: '100%',
@@ -26,9 +72,9 @@ const LoginPage = () => {
       }}>
         Login to your Account
       </h2>
-      <form>
+      <form onSubmit={handleSubmit} noValidate>
         <label htmlFor="email" style={{ fontSize: '1rem', color: '#3a4665', marginBottom: 6, display: 'block' }}>Email Address</label>
-        <input type="email" id="email" name="email" required placeholder="Enter your email"
+        <input type="email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete='email' required placeholder="Enter your email"
           style={{
             width: '100%',
             padding: '10px 12px',
@@ -41,7 +87,7 @@ const LoginPage = () => {
           }}
         />
         <label htmlFor="password" style={{ fontSize: '1rem', color: '#3a4665', marginBottom: 6, display: 'block' }}>Password</label>
-        <input type="password" id="password" name="password" required placeholder="Enter your password"
+        <input type="password" id="password" name="password" required autoComplete='current-password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password"
           style={{
             width: '100%',
             padding: '10px 12px',
@@ -52,8 +98,9 @@ const LoginPage = () => {
             boxSizing: 'border-box',
             background: '#fafbfc'
           }}
+
         />
-        <button type="submit"
+        <button type="submit" disabled="submit" aria-busy="loading"
           style={{
             width: '100%',
             padding: '14px',
@@ -68,17 +115,12 @@ const LoginPage = () => {
             transition: 'background 0.2s'
           }}
         >
-          Login
+          {loading ? 'Logging in...' : 'Login'}
         </button>
       </form>
       <div style={{ textAlign: 'center', marginTop: 20 }}>
-        <Link to="/forgot-password" className="text-sm text-blue-600 hover:underline">Forgot password?</Link>
-        <p className="text-center text-sm text-gray-600 mt-4">
-         Don’t have an account?{" "}
-         <Link to="/create-account" className="text-blue-600 hover:underline">
-          Create one
-         </Link>
-        </p>
+        <Link to="/forgot-password" style={{ color: '#2871fa', textDecoration: 'none', margin: '0 8px', fontSize: '0.95rem' }}>Forgot Password?</Link>
+        <Link to="/create-account" style={{ color: '#2871fa', textDecoration: 'none', margin: '0 8px', fontSize: '0.95rem' }}>Create Account</Link>
       </div>
     </div>
   );

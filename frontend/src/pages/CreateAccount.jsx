@@ -1,5 +1,6 @@
 import React from "react";
 import { UserPlus } from "lucide-react";
+import { Link } from 'react-router-dom'
 
 const CreateAccount = () => {
   return (
@@ -51,9 +52,9 @@ const CreateAccount = () => {
 
         <p className="text-center text-gray-600 text-sm mt-4">
           Already have an account?{" "}
-          <a href="#" className="text-blue-600 hover:underline">
+          <Link to="/" className="text-blue-600 hover:underline">
             Sign in
-          </a>
+          </Link>
         </p>
       </div>
     </div>
