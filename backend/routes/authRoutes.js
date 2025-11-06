@@ -10,6 +10,11 @@ console.log("Current dir:", import.meta.url);
 dotenv.config();
 const router = express.Router();
 
+router.get("/test", (req, res) => {
+  res.send("Auth route working!");
+});
+
+
 // 🟢 REGISTER
 router.post("/register", async (req, res) => {
   try {
