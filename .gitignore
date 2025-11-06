@@ -62,6 +62,7 @@ frontend/dist/
 frontend/.vite/
 frontend/.env
 frontend/.env.*
+!.env.example
 
 # ==============================
 # 🧠 Backend (Express / Node)
@@ -71,6 +72,7 @@ backend/dist/
 backend/build/
 backend/.env
 backend/.env.*
+!.env.example
 
 # ==============================
 # 🧪 Testing / Tools
