@@ -1,154 +1,128 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom'
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 
 const LoginPage = () => {
+
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    setError("");
-
-    if (!email.trim() || !password) {
-      setError("Please enter an e-mail and a password.");
+    setError('');
+    
+    if(!email.trim() || !password) {
+      setError('Please enter an e-mail and a password.');
       return;
     }
 
     setLoading(true);
     try {
       const res = await fetch(`${API_BASE}/api/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ email: email.trim().toLowerCase(), password }),
+        method: 'POST',
+        headers: { 'Content-Type' : 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email: email.trim().toLowerCase(), password})
       });
 
-      const data =
-        (res.headers.get("content-type") || "").includes("application/json")
-          ? await res.json()
-          : null;
+      const data = await (res.headers.get('content-type') || '').includes('application/json')
+      ? await res.json()
+      : null;
 
-      if (res.ok) {
-        if (data && data.token) {
-          localStorage.setItem("auth_token", data.token);
+      if(res.ok) {
+        if(data && data.token) {
+          localStorage.setItem('auth_token', data.token);
         }
-        navigate("/home");
+        navigate('/home');
       } else {
-        setError(
-          (data && data.error) ||
-            (res.status === 401 ? "Invalid Credentials." : "Login Failed")
-        );
+        setError((data && data.error) || (res.status === 401 ? 'Invalid Credentials.' : 'Login Failed'));
       }
-    } catch (err) {
-      console.error("Login Error:", err);
-      setError("Network Error - please try again.");
+    } catch(err) {
+      console.error('Login Error: ', err);
+      setError('Network Error - please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
-      <div className="w-full max-w-md bg-white shadow-lg rounded-2xl px-8 py-10">
-        {/* Logo + Title */}
-        <div className="flex items-center justify-center mb-8">
-          <svg
-            width="38"
-            height="38"
-            viewBox="0 0 32 32"
-            fill="#2871fa"
-            xmlns="http://www.w3.org/2000/svg"
-            className="mr-3"
-          >
-            <rect width="32" height="32" rx="8" />
-            <path
-              d="M10 12v8m12-8v8M10 12h12M10 20h12"
-              stroke="#fff"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </svg>
-          <span className="text-xl font-bold text-gray-900">SmartLibrary AI</span>
-        </div>
+    <div style={{
+      width: '100%',
+      maxWidth: '400px',
+      margin: '70px auto',
+      background: '#fff',
+      boxShadow: '0 8px 32px rgba(100,100,150,0.15)',
+      borderRadius: '18px',
+      padding: '40px 40px 32px 40px',
+      fontFamily: "'Inter', Arial, sans-serif"
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 30 }}>
+        {/* Book icon SVG */}
+        <svg width="38" height="38" viewBox="0 0 32 32" fill="#2871fa" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: 10 }}>
+          <rect width="32" height="32" rx="8"/>
+          <path d="M10 12v8m12-8v8M10 12h12M10 20h12" stroke="#fff" strokeWidth="2" strokeLinecap="round"/>
+        </svg>
+        <span style={{ fontSize: '1.4rem', fontWeight: 700, color: '#222a3a' }}>SmartLibrary AI</span>
+      </div>
+      <h2 style={{
+        textAlign: 'center', color: '#222a3a', marginBottom: 20, fontWeight: 700
+      }}>
+        Login to your Account
+      </h2>
+      <form onSubmit={handleSubmit} noValidate>
+        <label htmlFor="email" style={{ fontSize: '1rem', color: '#3a4665', marginBottom: 6, display: 'block' }}>Email Address</label>
+        <input type="email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete='email' required placeholder="Enter your email"
+          style={{
+            width: '100%',
+            padding: '10px 12px',
+            marginBottom: 18,
+            borderRadius: '9px',
+            border: '1px solid #eaeaf2',
+            fontSize: '1rem',
+            boxSizing: 'border-box',
+            background: '#fafbfc'
+          }}
+        />
+        <label htmlFor="password" style={{ fontSize: '1rem', color: '#3a4665', marginBottom: 6, display: 'block' }}>Password</label>
+        <input type="password" id="password" name="password" required autoComplete='current-password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password"
+          style={{
+            width: '100%',
+            padding: '10px 12px',
+            marginBottom: 18,
+            borderRadius: '9px',
+            border: '1px solid #eaeaf2',
+            fontSize: '1rem',
+            boxSizing: 'border-box',
+            background: '#fafbfc'
+          }}
 
-        <h2 className="text-center text-2xl font-bold text-gray-800 mb-6">
-          Login to your Account
-        </h2>
-
-        {/* Error Message */}
-        {error && (
-          <p className="text-red-600 bg-red-50 border border-red-200 text-sm rounded-md p-2 mb-4">
-            {error}
-          </p>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Email Address
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder="Enter your email"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              placeholder="Enter your password"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full py-3 text-white font-semibold rounded-md transition duration-200 
-            ${loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}`}
-          >
-            {loading ? "Logging in..." : "Login"}
-          </button>
-        </form>
-
-        {/* Links */}
-        <div className="text-center mt-5 space-x-4">
-          <Link
-            to="/forgot-password"
-            className="text-sm text-blue-600 hover:underline"
-          >
-            Forgot Password?
-          </Link>
-          <Link
-            to="/create-account"
-            className="text-sm text-blue-600 hover:underline"
-          >
-            Create Account
-          </Link>
-        </div>
+        />
+        <button type="submit" disabled="submit" aria-busy="loading"
+          style={{
+            width: '100%',
+            padding: '14px',
+            background: '#2871fa',
+            border: 'none',
+            color: '#fff',
+            borderRadius: '9px',
+            fontSize: '1.08rem',
+            fontWeight: 700,
+            cursor: 'pointer',
+            marginTop: 10,
+            transition: 'background 0.2s'
+          }}
+        >
+          {loading ? 'Logging in...' : 'Login'}
+        </button>
+      </form>
+      <div style={{ textAlign: 'center', marginTop: 20 }}>
+        <Link to="/forgot-password" style={{ color: '#2871fa', textDecoration: 'none', margin: '0 8px', fontSize: '0.95rem' }}>Forgot Password?</Link>
+        <Link to="/create-account" style={{ color: '#2871fa', textDecoration: 'none', margin: '0 8px', fontSize: '0.95rem' }}>Create Account</Link>
       </div>
     </div>
   );
