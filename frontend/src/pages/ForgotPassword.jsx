@@ -31,91 +31,62 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h2 style={styles.title}>Forgot Password</h2>
-        <p style={styles.description}>
-          Enter your registered email address and we’ll send you a link to reset your password.
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 text-center">
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+          Forgot Password
+        </h2>
+        <p className="text-gray-600 text-sm mb-6">
+          Enter your registered email address and we’ll send you a link to reset
+          your password.
         </p>
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <label style={styles.label}>Email Address</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={styles.input}
-            placeholder="example@email.com"
-          />
-          {error && <p style={styles.error}>{error}</p>}
-          {message && <p style={styles.success}>{message}</p>}
-          <button type="submit" style={styles.button}>
+
+        <form onSubmit={handleSubmit} className="space-y-4 text-left">
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Email Address
+            </label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              placeholder="example@email.com"
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+
+          {error && (
+            <p className="text-red-600 bg-red-50 border border-red-200 text-sm rounded-md p-2">
+              {error}
+            </p>
+          )}
+          {message && (
+            <p className="text-green-600 bg-green-50 border border-green-200 text-sm rounded-md p-2">
+              {message}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-md transition-colors"
+          >
             Send Reset Link
           </button>
         </form>
 
         <button
           onClick={() => navigate("/")}
-          style={{ ...styles.link, background: "none", border: "none", cursor: "pointer", display: "block", margin: "15px auto 0", }}
+          className="mt-5 text-blue-600 hover:underline text-sm font-medium transition-colors"
         >
           Back to Login
         </button>
       </div>
     </div>
   );
-};
-
-// Inline styles
-const styles = {
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100vh",
-    backgroundColor: "#f4f7fa",
-  },
-  card: {
-    backgroundColor: "#fff",
-    padding: "30px 40px",
-    borderRadius: "12px",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-    width: "100%",
-    maxWidth: "400px",
-    textAlign: "center",
-  },
-  title: { marginBottom: "10px", color: "#333" },
-  description: { color: "#666", marginBottom: "20px", fontSize: "14px" },
-  form: { display: "flex", flexDirection: "column", alignItems: "stretch" },
-  label: {
-    textAlign: "left",
-    fontSize: "14px",
-    color: "#333",
-    marginBottom: "6px",
-  },
-  input: {
-    padding: "10px",
-    borderRadius: "8px",
-    border: "1px solid #ccc",
-    marginBottom: "10px",
-    fontSize: "14px",
-  },
-  button: {
-    backgroundColor: "#007bff",
-    color: "#fff",
-    border: "none",
-    padding: "10px",
-    borderRadius: "8px",
-    cursor: "pointer",
-    fontSize: "15px",
-  },
-  link: {
-    display: "block",
-    marginTop: "15px",
-    color: "#007bff",
-    textDecoration: "none",
-    fontSize: "14px",
-  },
-  error: { color: "red", fontSize: "13px", marginBottom: "10px" },
-  success: { color: "green", fontSize: "13px", marginBottom: "10px" },
 };
 
 export default ForgotPassword;
