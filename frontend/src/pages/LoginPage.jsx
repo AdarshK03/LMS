@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom'
 
+const API_BASE = import.meta.env.VITE_API_BASE;
+
 const LoginPage = () => {
 
   const navigate = useNavigate();
@@ -100,7 +102,7 @@ const LoginPage = () => {
           }}
 
         />
-        <button type="submit" disabled="submit" aria-busy="loading"
+        <button type="submit" disabled={loading} aria-busy={loading}
           style={{
             width: '100%',
             padding: '14px',
