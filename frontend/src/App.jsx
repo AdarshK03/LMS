@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
-import ForgotPassword from "./pages/passforgot.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
 import CreateAccount from "./pages/CreateAccount.jsx";
 
 const queryClient = new QueryClient();
