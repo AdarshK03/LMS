@@ -102,7 +102,7 @@ const LoginPage = () => {
           }}
 
         />
-        <button type="submit" disabled="submit" aria-busy="loading"
+        <button type="submit" disabled={loading} aria-busy={loading}
           style={{
             width: '100%',
             padding: '14px',
