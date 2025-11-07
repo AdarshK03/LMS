@@ -28,7 +28,7 @@ const LoginPage = () => {
         method: 'POST',
         headers: { 'Content-Type' : 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ email: email.trim().toLowerCase(), password})
+        body: JSON.stringify({ email: email.trim().toLowerCase(), password, rememberMe})
       });
 
       const data = await (res.headers.get('content-type') || '').includes('application/json')
