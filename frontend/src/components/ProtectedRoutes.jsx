@@ -8,7 +8,7 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("auth_token"); //fixed name
       if (!token) {
         setIsValid(false);
         return;
@@ -32,7 +32,7 @@ const ProtectedRoute = ({ children }) => {
   }, []);
 
   if (isValid === null) return <p>Loading...</p>;
-  if (!isValid) return <Navigate to="/login" replace />;
+  if (!isValid) return <Navigate to="/" replace />;
 
   return children;
 };
