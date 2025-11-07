@@ -11,6 +11,7 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -100,8 +101,18 @@ const LoginPage = () => {
             boxSizing: 'border-box',
             background: '#fafbfc'
           }}
-
         />
+        <div style={{ marginBottom: 16 }}>
+          <label style={{ fontSize: '0.95rem', color: '#3a4665' }}>
+            <input 
+              type="checkbox" 
+              checked={rememberMe} 
+              onChange={(e) => setRememberMe(e.target.checked)} 
+              style={{ marginRight: 8 }}
+            />
+            Stay signed in
+          </label>
+        </div>
         <button type="submit" disabled={loading} aria-busy={loading}
           style={{
             width: '100%',
