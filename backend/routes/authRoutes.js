@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
-import { User } from "../models/users.js";
+import  User from "../models/users.js";
 
 dotenv.config();  //Load .env variables
 const router = express.Router();

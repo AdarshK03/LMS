@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import CreateAccount from "./pages/CreateAccount.jsx";
+import ProtectedRoute from "./components/ProtectedRoutes.jsx";
 
 const queryClient = new QueryClient();
 
@@ -20,7 +21,18 @@ const App = () => (
         <Routes>
           <Route path="/" element ={<LoginPage />}/>
           <Route path="/forgot-password" element ={<ForgotPassword />} />
-          <Route path="/home" element={<Index />} />
+
+          {/* Protected Route so users can not access home page without logging in */}
+
+          <Route 
+            path="/home"
+            element={
+              <ProtectedRoute>
+                <Index />
+              </ProtectedRoute>
+            } 
+          />
+
           <Route path="/create-account" element={<CreateAccount />} />
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
