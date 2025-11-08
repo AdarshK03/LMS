@@ -11,6 +11,7 @@ import CreateAccount from "./pages/CreateAccount.jsx";
 import ProtectedRoute from "./components/ProtectedRoutes.jsx";
 import VerifyOtp from "./pages/VerifyOTP.jsx";
 import ResetPassword from "./pages/ResetPassword";
+import LibraryAssistant from "./components/LibraryAssistant";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,15 @@ const App = () => (
                 <Index />
               </ProtectedRoute>
             } 
+          />
+          {/* Add this new route for AI chatbot */}
+          <Route
+            path="/assistant"
+            element={
+              <ProtectedRoute>
+                <LibraryAssistant />
+              </ProtectedRoute>
+            }
           />
 
           <Route path="/create-account" element={<CreateAccount />} />
