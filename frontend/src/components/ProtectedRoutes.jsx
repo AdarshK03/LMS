@@ -22,6 +22,7 @@ const ProtectedRoute = ({ children }) => {
         });
 
         setIsValid(res.ok);
+
       } catch (err) {
         console.error(err);
         setIsValid(false);

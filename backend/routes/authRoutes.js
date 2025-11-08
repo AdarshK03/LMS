@@ -43,7 +43,7 @@ router.get("/test", (req, res) => {
   res.send("Auth route working!");
 });
 
-router.post("/register", authLimiter, async (req, res) => {
+router.post("/register", async (req, res) => {  // Remove rate limiter for development purposes (add back for production)
   try {
     const { name, email, password } = req.body;
 
@@ -79,7 +79,7 @@ router.post("/register", authLimiter, async (req, res) => {
 });
 
 // LOGIN
-router.post("/login", authLimiter, async (req, res) => {
+router.post("/login", async (req, res) => {  // Remove rate limiter for development purposes (add back for production)
   try {
     const { email, password, rememberMe } = req.body;
 
@@ -106,7 +106,7 @@ router.post("/login", authLimiter, async (req, res) => {
       // Set it as a secure HTTP-only cookie
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: process.env.NODE_ENV,
         sameSite: "Strict",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
