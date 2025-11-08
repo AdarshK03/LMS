@@ -9,6 +9,8 @@ import LoginPage from "./pages/LoginPage.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import CreateAccount from "./pages/CreateAccount.jsx";
 import ProtectedRoute from "./components/ProtectedRoutes.jsx";
+import VerifyOtp from "./pages/VerifyOTP.jsx";
+import ResetPassword from "./pages/ResetPassword";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +23,8 @@ const App = () => (
         <Routes>
           <Route path="/" element ={<LoginPage />}/>
           <Route path="/forgot-password" element ={<ForgotPassword />} />
+          <Route path="/verify-otp" element={<VerifyOtp />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
 
           {/* Protected Route so users can not access home page without logging in */}
 
