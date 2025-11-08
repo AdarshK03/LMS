@@ -1,8 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Search, Sparkles } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
+import { useNavigate } from "react-router-dom";
+
+
 
 const Hero = () => {
+  const navigate = useNavigate();
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Gradient Overlay */}
@@ -49,6 +53,7 @@ const Hero = () => {
               Start Searching
             </Button>
             <Button 
+              onClick={() => navigate("/assistant")}
               size="lg" 
               variant="secondary"
               className="w-full sm:w-auto shadow-soft hover:shadow-elevated transition-smooth"

@@ -26,27 +26,12 @@ const App = () => (
           <Route path="/forgot-password" element ={<ForgotPassword />} />
           <Route path="/verify-otp" element={<VerifyOtp />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-
+          
           {/* Protected Route so users can not access home page without logging in */}
-
-          <Route 
-            path="/home"
-            element={
-              <ProtectedRoute>
-                <Index />
-              </ProtectedRoute>
-            } 
-          />
+          <Route path="/home"element={<ProtectedRoute><Index /></ProtectedRoute>}/>
+          
           {/* Add this new route for AI chatbot */}
-          <Route
-            path="/assistant"
-            element={
-              <ProtectedRoute>
-                <LibraryAssistant />
-              </ProtectedRoute>
-            }
-          />
-
+          <Route path="/assistant" element={<LibraryAssistant />}/>
           <Route path="/create-account" element={<CreateAccount />} />
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
