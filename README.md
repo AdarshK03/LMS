@@ -14,4 +14,4 @@ This project is built with:
 
 
 ## Link of the Website
-https://smart-lib.netlify.app/
+https://vu-library.netlify.app/
