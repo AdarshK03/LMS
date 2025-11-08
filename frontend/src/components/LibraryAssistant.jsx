@@ -9,22 +9,23 @@ const LibraryAssistant = () => {
   const sendQuery = async () => {
     if (!query.trim()) return;
 
+    // Add user message
     setMessages((prev) => [...prev, { role: "user", text: query }]);
     setQuery("");
     setLoading(true);
 
     try {
+      // ✅ Updated to match your live Render backend
       const res = await axios.post("https://library-ai-backend.onrender.com/ask-ai", { query });
 
-      if (res.data.ok) {
-        setMessages((prev) => [
-          ...prev,
-          { role: "ai", text: `✅ I’ve analyzed your query! (Embedding length: ${res.data.embeddingLength})` },
-        ]);
+      if (res.data.ok && res.data.reply) {
+        // ✅ Use the real AI reply from backend
+        setMessages((prev) => [...prev, { role: "ai", text: res.data.reply }]);
       } else {
-        setMessages((prev) => [...prev, { role: "ai", text: "❌ AI failed to respond." }]);
+        setMessages((prev) => [...prev, { role: "ai", text: "❌ AI failed to respond properly." }]);
       }
     } catch (err) {
+      console.error(err);
       setMessages((prev) => [...prev, { role: "ai", text: "⚠️ Network error. Try again later." }]);
     } finally {
       setLoading(false);
@@ -47,7 +48,9 @@ const LibraryAssistant = () => {
           <div
             key={i}
             className={`my-2 p-3 rounded-md ${
-              msg.role === "user" ? "bg-blue-600 text-white ml-auto w-fit" : "bg-gray-200 w-fit"
+              msg.role === "user"
+                ? "bg-blue-600 text-white ml-auto w-fit"
+                : "bg-gray-200 w-fit"
             }`}
           >
             {msg.text}
