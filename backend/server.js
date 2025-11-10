@@ -1,42 +1,51 @@
 import express from "express";
 import dotenv from "dotenv";
-import sequelize from "./config/db.js";
+import sequelize from "./src/config/db.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import rateLimit from "express-rate-limit";
 import helmet from "helmet";
-
-import authRoutes from "./routes/authRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
+import authRoutes from "./src/routes/authRoutes.js";
 
 dotenv.config();
+
 const app = express();
 
-app.use(cors({
-  origin: process.env.CLIENT_URL || "http://localhost:8080",
-  credentials: true,
-}));
-
+// ✅ Core middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(helmet()); // Security headers
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:8080",
+    credentials: true,
+  })
+);
+app.use(helmet());
 
+// ✅ Health check route
+app.get("/", (req, res) => {
+  res.json({ status: "OK", message: "LMS Backend API is running 🚀" });
+});
+
+// ✅ Auth routes
 app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
 
-// Test DB connection
-sequelize
-  .authenticate()
-  .then(() => console.log("✅ PostgreSQL connected"))
-  .catch((err) => console.error("❌ DB Connection failed:", err));
+// ✅ Connect & Sync Database
+(async () => {
+  try {
+    console.log("⏳ Connecting to database...");
+    await sequelize.authenticate();
+    console.log("✅ Connected to hosted PostgreSQL");
 
-// Sync models (create tables if not exist)
-sequelize
-  .sync()
-  .then(() => console.log("✅ Database synced"))
-  .catch((err) => console.error("❌ Sync error:", err));
+    // Sync models with DB
+    await sequelize.sync({ alter: true });
+    console.log("✅ Models synchronized with PostgreSQL");
 
-app.get("/", (req, res) => res.send("API is running..."));
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () =>
+      console.log(`🚀 Server running and listening on port ${PORT}`)
+    );
+  } catch (error) {
+    console.error("❌ Database connection failed:", error.message);
+    process.exit(1); // stop server if DB fails
+  }
+})();
