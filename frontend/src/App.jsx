@@ -22,13 +22,13 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element ={<LoginPage />}/>
+          <Route path="/"element={<Index />}/>
+          <Route path="/login" element ={<LoginPage />}/>
           <Route path="/forgot-password" element ={<ForgotPassword />} />
           <Route path="/verify-otp" element={<VerifyOtp />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           
           {/* Protected Route so users can not access home page without logging in */}
-          <Route path="/home"element={<ProtectedRoute><Index /></ProtectedRoute>}/>
           
           {/* Add this new route for AI chatbot */}
           <Route path="/assistant" element={<LibraryAssistant />}/>
