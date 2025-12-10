@@ -1,17 +1,39 @@
 import express from "express";
-import bcrypt from "bcryptjs";
-import { sendOTP, verifyOTP } from "../controllers/authController.js";
+import rateLimit from "express-rate-limit";
+import {
+  sendOTP,
+  verifyOTP,
+  register,
+  login,
+  refreshToken,
+  logout,
+} from "../controllers/authController.js";
 import User from "../models/userModel.js";
+import bcrypt from "bcryptjs";
 
 const router = express.Router();
 
-// ✅ Send OTP
-router.post("/send-otp", sendOTP);
+const authLimiter = rateLimit({
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  max: 5, // limit each IP to 5 attempts per window
+  message: {
+    message: "Too many login/register attempts. Please try again later.",
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
-// ✅ Verify OTP
+// ✅ Auth Routes
+router.post("/register", register); // Add authLimiter back for production
+router.post("/login", login); // Add authLimiter back for production
+router.post("/refresh", refreshToken);
+router.post("/logout", logout);
+
+// ✅ OTP Routes
+router.post("/send-otp", sendOTP);
 router.post("/verify-otp", verifyOTP);
 
-// ✅ Reset Password (Sequelize + OWASP compliant)
+// ✅ Reset Password (Sequelize + OWASP compliant) - Keeping this inline as it wasn't fully in controller or root routes
 router.post("/reset-password", async (req, res) => {
   try {
     const { email, newPassword } = req.body;

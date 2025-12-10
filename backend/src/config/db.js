@@ -4,25 +4,26 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  dialect: "postgres",
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false, // Needed for Render/Neon hosted databases
+const sequelize = process.env.DATABASE_URL
+  ? new Sequelize(process.env.DATABASE_URL, {
+    dialect: "postgres",
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
     },
-  },
-  logging: false, // Disable SQL query logs in console
-});
-
-// ✅ Test connection when starting the server
-(async () => {
-  try {
-    await sequelize.authenticate();
-    console.log("✅ Connected to hosted PostgreSQL");
-  } catch (error) {
-    console.error("❌ Database connection failed:", error);
-  }
-})();
+    logging: false,
+  })
+  : new Sequelize(
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASSWORD,
+    {
+      host: process.env.DB_HOST,
+      dialect: "postgres",
+      logging: false,
+    }
+  );
 
 export default sequelize;

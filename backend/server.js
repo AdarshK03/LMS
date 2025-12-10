@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
 import authRoutes from "./src/routes/authRoutes.js";
+import userRoutes from "./src/routes/userRoutes.js";
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.get("/", (req, res) => {
 
 // ✅ Auth routes
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 
 // ✅ Connect & Sync Database
 (async () => {
