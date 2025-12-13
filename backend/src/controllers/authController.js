@@ -142,56 +142,121 @@ export const logout = (req, res) => {
   res.json({ message: "Logged out successfully." });
 };
 
-// ✅ Send OTP (Existing)
-export const sendOTP = async (req, res) => {
+
+// Forgot Password Work-Flow
+//Send OTP for password reset
+
+export const forgotPasswordSendOtp = async (req, res) => {
   try {
     const { email } = req.body;
-    if (!email) return res.status(400).json({ message: "Email is required" });
+    if (!email)
+      return res.status(400).json({ message: "Email is required" });
 
-    // Check if user exists
     const user = await User.findOne({ where: { email } });
     if (!user)
-      return res
-        .status(404)
-        .json({ message: "User not found. Please sign up first." });
+      return res.status(404).json({ message: "User not found" });
 
     const otp = crypto.randomInt(100000, 999999).toString();
-    const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 min
+    const otpHash = await bcrypt.hash(otp, 10);
 
-    await Otp.create({ email, otp, expiresAt });
+    await Otp.destroy({ where: { email } });
+
+    await Otp.create({
+      email,
+      otpHash,
+      expiresAt: new Date(Date.now() + 5 * 60 * 1000),
+      verified: false,
+    });
+
     await sendEmail(
       email,
-      "Your OTP Code",
+      "Password Reset OTP",
       `Your OTP is ${otp}. It expires in 5 minutes.`
     );
 
-    res.status(200).json({ message: "OTP sent successfully ✅" });
+    res.json({ success: true, message: "OTP sent successfully" });
   } catch (err) {
-    console.error("Error sending OTP:", err);
-    res.status(500).json({ message: "Error sending OTP" });
+    console.error("Forgot Password OTP Error:", err);
+    res.status(500).json({ message: "Failed to send OTP" });
   }
 };
 
-// ✅ Verify OTP (Existing)
-export const verifyOTP = async (req, res) => {
+// ✅ Verify OTP for password reset
+
+export const forgotPasswordVerifyOtp = async (req, res) => {
   try {
     const { email, otp } = req.body;
     if (!email || !otp)
-      return res.status(400).json({ message: "Email and OTP are required" });
+      return res.status(400).json({ message: "Email and OTP required" });
 
-    const record = await Otp.findOne({
-      where: { email, otp, used: false },
-    });
-
+    const record = await Otp.findOne({ where: { email } });
     if (!record || record.expiresAt < new Date())
-      return res.status(400).json({ message: "Invalid or expired OTP" });
+      return res.status(400).json({ message: "OTP expired or invalid" });
 
-    record.used = true;
+    const valid = await bcrypt.compare(otp, record.otpHash);
+    if (!valid)
+      return res.status(400).json({ message: "Invalid OTP" });
+
+    record.verified = true;
     await record.save();
 
-    res.status(200).json({ message: "OTP verified successfully ✅" });
+    res.json({ success: true, message: "OTP verified" });
   } catch (err) {
-    console.error("Error verifying OTP:", err);
-    res.status(500).json({ message: "Error verifying OTP" });
+    console.error("Verify OTP Error:", err);
+    res.status(500).json({ message: "OTP verification failed" });
   }
 };
+
+// ✅ Reset password (ONLY after OTP verification)
+export const forgotPasswordReset = async (req, res) => {
+  try {
+    const { email, newPassword } = req.body;
+
+    if (!email || !newPassword) {
+      return res
+        .status(400)
+        .json({ message: "Email and new password are required" });
+    }
+
+    const otpRecord = await Otp.findOne({
+      where: { email, verified: true },
+    });
+
+    if (!otpRecord || otpRecord.expiresAt < new Date()) {
+      return res
+        .status(403)
+        .json({ message: "OTP verification required" });
+    }
+
+    const user = await User.findOne({ where: { email } });
+    if (!user)
+      return res.status(404).json({ message: "User not found" });
+
+    const samePassword = await bcrypt.compare(
+      newPassword,
+      user.password
+    );
+    if (samePassword)
+      return res
+        .status(400)
+        .json({ message: "New password cannot be same as old password" });
+
+    const strengthError = isStrongPassword(newPassword);
+    if (strengthError)
+      return res.status(400).json({ message: strengthError });
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+
+    // 🔥 Invalidate OTP permanently
+    await Otp.destroy({ where: { email } });
+
+    res.json({ success: true, message: "Password reset successful ✅" });
+  } catch (err) {
+    console.error("Reset Password Error:", err);
+    res.status(500).json({ message: "Password reset failed" });
+  }
+};
+
+
+

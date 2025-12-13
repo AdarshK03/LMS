@@ -1,3 +1,5 @@
+// src/models/otpModel.js
+
 import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
 
@@ -8,7 +10,9 @@ const Otp = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    otp: {
+
+    otpHash: {
+
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -16,14 +20,15 @@ const Otp = sequelize.define(
       type: DataTypes.DATE,
       allowNull: false,
     },
-    used: {
+
+    verified: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
   },
   {
-    tableName: "otps",      // ✅ lowercased, matches DB
-    freezeTableName: true,  // ✅ prevents Sequelize from pluralizing or duplicating
+
+    tableName: "Otps",
     timestamps: true,
   }
 );
