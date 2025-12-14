@@ -7,9 +7,10 @@ const ForgotPassword = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validateEmail = (email) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setMessage("");
@@ -24,11 +25,33 @@ const ForgotPassword = () => {
       return;
     }
 
-    // Simulate OTP being sent
-    setMessage("OTP has been sent to your email address.");
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_BASE}/api/auth/forgot-password/send-otp`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
 
-    // Redirect to Verify OTP page after short delay
-    setTimeout(() => navigate("/verify-otp"), 1000);
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to send OTP");
+      }
+
+      setMessage("OTP has been sent to your email address.");
+
+      // Redirect to Verify OTP page with email
+      setTimeout(() => {
+        navigate("/verify-otp", { state: { email } });
+      }, 800);
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const VerifyOtp = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -7,31 +7,50 @@ const VerifyOtp = () => {
   const [error, setError] = useState("");
   const inputRefs = useRef([]);
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const email = state?.email;
 
   const handleChange = (e, index) => {
-    const value = e.target.value.replace(/\D/, ""); // Only digits
+    const value = e.target.value.replace(/\D/, "");
     if (!value) return;
 
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
 
-    // Move to next box automatically
-    if (index < 5 && value) {
-      inputRefs.current[index + 1].focus();
+    if (index < 5) {
+      inputRefs.current[index + 1]?.focus();
     }
   };
 
   const handleKeyDown = (e, index) => {
-    if (e.key === "Backspace" && !otp[index] && index > 0) {
-      inputRefs.current[index - 1].focus();
+    if (e.key === "Backspace") {
+      e.preventDefault();
+
+      const newOtp = [...otp];
+
+      if (newOtp[index]) {
+        // If current box has a value, clear it
+        newOtp[index] = "";
+        setOtp(newOtp);
+      } else if (index > 0) {
+        // If empty, move to previous box and clear it
+        inputRefs.current[index - 1]?.focus();
+        newOtp[index - 1] = "";
+        setOtp(newOtp);
+      }
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setMessage("");
+
+    if (!email) {
+      setError("Session expired. Please start again.");
+      return;
+    }
 
     const otpValue = otp.join("");
 
@@ -40,8 +59,32 @@ const VerifyOtp = () => {
       return;
     }
 
-    setMessage("OTP verified successfully!");
-    setTimeout(() => navigate("/reset-password"), 1000);
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_BASE}/api/auth/forgot-password/verify-otp`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, otp: otpValue }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "OTP verification failed");
+      }
+
+      setMessage("OTP verified successfully!");
+
+      setTimeout(() => {
+        navigate("/reset-password", { state: { email } });
+      }, 700);
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (

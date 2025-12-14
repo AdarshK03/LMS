@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -7,19 +7,21 @@ const ResetPassword = () => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const email = state?.email;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setMessage("");
 
-    if (!newPassword || !confirmPassword) {
-      setError("Both fields are required");
+    if (!email) {
+      setError("Session expired. Please start again.");
       return;
     }
 
-    if (newPassword.length < 6) {
-      setError("Password must be at least 6 characters long");
+    if (!newPassword || !confirmPassword) {
+      setError("Both fields are required");
       return;
     }
 
@@ -28,10 +30,35 @@ const ResetPassword = () => {
       return;
     }
 
-    setMessage("Password reset successfully!");
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_BASE}/api/auth/forgot-password/reset`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            newPassword,
+          }),
+        }
+      );
 
-    // Simulate redirect to login
-    setTimeout(() => navigate("/"), 1500);
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Password reset failed");
+      }
+
+      setMessage("Password reset successful!");
+
+      setTimeout(() => {
+        navigate("/");
+      }, 1200);
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
