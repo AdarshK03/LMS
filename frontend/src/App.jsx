@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
+import SearchPage from "./pages/SearchPage.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import CreateAccount from "./pages/CreateAccount.jsx";
 import ProtectedRoute from "./components/ProtectedRoutes.jsx";
@@ -23,15 +25,20 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element ={<LoginPage />}/>
+          {/*<Route path="/home" element = {<Index />}/> */}
           <Route path="/forgot-password" element ={<ForgotPassword />} />
-          <Route path="/verify-otp" element={<VerifyOtp />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
+          
+          
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/search" element={<SearchPage />} />
           
           {/* Protected Route so users can not access home page without logging in */}
           <Route path="/home"element={<ProtectedRoute><Index /></ProtectedRoute>}/>
+          <Route path="/verify-otp" element={<ProtectedRoute><VerifyOtp /></ProtectedRoute>} /> 
+          <Route path="/reset-password" element={<ProtectedRoute><ResetPassword /></ProtectedRoute>} />
+          <Route path="/assistant" element={<ProtectedRoute><LibraryAssistant /></ProtectedRoute>}/>
           
           {/* Add this new route for AI chatbot */}
-          <Route path="/assistant" element={<LibraryAssistant />}/>
           <Route path="/create-account" element={<CreateAccount />} />
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
