@@ -195,18 +195,18 @@ return (
       </div>
 
       {/* ───────────────── Login Card ───────────────── */}
-      <div className="mr-auto m-10 w-full max-w-md opacity-100 rounded-2xl shadow-2xl p-8 ">
+      <div className="w-full max-w-md opacity-95 bg-stone-800 rounded-2xl shadow-2xl p-8 ">
 
         {/* Header */}
         <div className="text-center mb-8">
-          <p className="text-xs tracking-widest opacity-300 uppercase text-[#8b6b2f] mb-2">
+          <p className="text-xs tracking-widest opacity-300 uppercase text-white mb-2">
             Powered by IBM
           </p>
-          <h2 className="text-2xl font-bold text-[#3a2a12]">
+          <h2 className="text-2xl font-bold text-white">
             SmartLibrary AI
           </h2>
           <div className="mt-4 flex justify-center">
-            <div className="w-20 h-px bg-[#8b6b2f]" />
+            <div className="w-20 h-px bg-white" />
           </div>
         </div>
 
@@ -220,33 +220,33 @@ return (
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-[#f3030b] mb-1">
+            <label className="block text-sm font-medium text-white mb-1">
               Email
             </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-md border border-[#cbb88a] bg-white px-3 py-2 text-sm
+              className="w-full rounded-md border border-[#cbb88a] bg-stone-700 px-3 py-2 text-sm
               focus:outline-none focus:ring-2 focus:ring-[#8b6b2f]"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#3a2a12] mb-1">
+            <label className="block text-sm font-medium text-white mb-1">
               Password
             </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-md border border-[#cbb88a] bg-white px-3 py-2 text-sm
+              className="w-full rounded-md border border-[#cbb88a] bg-stone-700 px-3 py-2 text-sm
               focus:outline-none focus:ring-2 focus:ring-[#8b6b2f]"
             />
           </div>
 
           <div className="flex items-center justify-between text-sm">
-            <label className="flex items-center gap-2 text-[#3a2a12]">
+            <label className="flex items-center gap-2 text-white">
               <input
                 type="checkbox"
                 checked={rememberMe}
@@ -273,7 +273,7 @@ return (
           </button>
         </form>
 
-        <p className="text-center text-sm text-[#3a2a12] mt-6">
+        <p className="text-center text-sm text-white mt-6">
           Don’t have an account?{" "}
           <Link
             to="/create-account"

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Search, Sparkles } from "lucide-react";
-import heroBg from "@/assets/hero-bg.jpg";
+import heroBg from "@/assets/lib.jpg";
 import { useNavigate } from "react-router-dom";
 
 
@@ -11,14 +11,14 @@ const Hero = () => {
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Gradient Overlay */}
       <div 
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 opacity-75"
         style={{
           backgroundImage: `url(${heroBg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
       >
-        <div className="absolute inset-0 gradient-hero opacity-95" />
+        
       </div>
 
       {/* Content */}
@@ -39,7 +39,8 @@ const Hero = () => {
           </h1>
 
           {/* Subtext */}
-          <p className="text-xl sm:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
+          <p
+           className=" text-slate-800 font-bold sm:text-3xl text-muted-foreground mb-12 max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
             SmartLibrary AI analyzes your course topics and recommends the most relevant books — powered by IBM Granite AI.
           </p>
 
