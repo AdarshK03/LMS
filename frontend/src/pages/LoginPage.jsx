@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import bg from "@/assets/lib.jpg";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 
@@ -57,126 +58,234 @@ const LoginPage = () => {
     }
   };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
-      <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
-        {/* Logo */}
-        <div className="flex items-center justify-center mb-8">
-          <svg
-            width="38"
-            height="38"
-            viewBox="0 0 32 32"
-            fill="#2871fa"
-            xmlns="http://www.w3.org/2000/svg"
-            className="mr-2"
-          >
-            <rect width="32" height="32" rx="8" />
-            <path
-              d="M10 12v8m12-8v8M10 12h12M10 20h12"
-              stroke="#fff"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </svg>
-          <span className="text-2xl font-bold text-gray-800">
+//   return (
+//     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-indigo-100 p-6">
+//       <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
+//         {/* Logo */}
+//         <div className="flex items-center justify-center mb-8">
+//           <svg
+//             width="38"
+//             height="38"
+//             viewBox="0 0 32 32"
+//             fill="#2871fa"
+//             xmlns="http://www.w3.org/2000/svg"
+//             className="mr-2"
+//           >
+//             <rect width="32" height="32" rx="8" />
+//             <path
+//               d="M10 12v8m12-8v8M10 12h12M10 20h12"
+//               stroke="#fff"
+//               strokeWidth="2"
+//               strokeLinecap="round"
+//             />
+//           </svg>
+//           <span className="text-2xl font-bold text-gray-800">
+//             SmartLibrary AI
+//           </span>
+//         </div>
+
+//         {/* Title */}
+//         <h2 className="text-center text-xl font-bold text-gray-800 mb-6">
+//           Login to your Account
+//         </h2>
+
+//         {/* Error Message */}
+//         {error && (
+//           <p className="text-red-600 bg-red-50 border border-red-200 text-sm rounded-md p-2 mb-4 text-center">
+//             {error}
+//           </p>
+//         )}
+
+//         {/* Form */}
+//         <form onSubmit={handleSubmit} noValidate className="space-y-4">
+//           <div>
+//             <label
+//               htmlFor="email"
+//               className="block text-sm font-medium text-gray-700 mb-1"
+//             >
+//               Email Address
+//             </label>
+//             <input
+//               id="email"
+//               type="email"
+//               name="email"
+//               autoComplete="email"
+//               required
+//               value={email}
+//               onChange={(e) => setEmail(e.target.value)}
+//               placeholder="Enter your email"
+//               className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+//             />
+//           </div>
+
+//           <div>
+//             <label
+//               htmlFor="password"
+//               className="block text-sm font-medium text-gray-700 mb-1"
+//             >
+//               Password
+//             </label>
+//             <input
+//               id="password"
+//               type="password"
+//               name="password"
+//               required
+//               autoComplete="current-password"
+//               value={password}
+//               onChange={(e) => setPassword(e.target.value)}
+//               placeholder="Enter your password"
+//               className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+//             />
+//           </div>
+
+//           <div className="flex items-center justify-between">
+//             <label className="flex items-center text-sm text-gray-700">
+//               <input
+//                 type="checkbox"
+//                 checked={rememberMe}
+//                 onChange={(e) => setRememberMe(e.target.checked)}
+//                 className="mr-2 accent-blue-600"
+//               />
+//               Stay signed in
+//             </label>
+//           </div>
+
+//           <button
+//             type="submit"
+//             disabled={loading}
+//             aria-busy={loading}
+//             className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-md transition-colors disabled:opacity-70"
+//           >
+//             {loading ? "Logging in..." : "Login"}
+//           </button>
+//         </form>
+
+//         {/* Links */}
+//         <div className="text-center mt-6 space-x-4">
+//           <Link
+//             to="/forgot-password"
+//             className="text-blue-600 hover:underline text-sm font-medium"
+//           >
+//             Forgot Password?
+//           </Link>
+//           <Link
+//             to="/create-account"
+//             className="text-blue-600 hover:underline text-sm font-medium"
+//           >
+//             Create Account
+//           </Link>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+return (
+  
+    <div
+  className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
+  style={{ backgroundImage: `url(${bg})`  }}
+>
+
+      {/* ───────────── Background Brand Text (Behind Card) ───────────── */}
+      <div className="absolute inset-0 flex m-20 justify-center pointer-events-none">
+        <h1 className="text-[6rem] sm:text-[8rem] font-extrabold tracking-widest text-[#e6d3a3] opacity-[0.70] select-none">
+          SMARTLIBRARY AI
+        </h1>
+      </div>
+
+      {/* ───────────────── Login Card ───────────────── */}
+      <div className="mr-auto m-10 w-full max-w-md opacity-100 rounded-2xl shadow-2xl p-8 ">
+
+        {/* Header */}
+        <div className="text-center mb-8">
+          <p className="text-xs tracking-widest opacity-300 uppercase text-[#8b6b2f] mb-2">
+            Powered by IBM
+          </p>
+          <h2 className="text-2xl font-bold text-[#3a2a12]">
             SmartLibrary AI
-          </span>
+          </h2>
+          <div className="mt-4 flex justify-center">
+            <div className="w-20 h-px bg-[#8b6b2f]" />
+          </div>
         </div>
 
-        {/* Title */}
-        <h2 className="text-center text-xl font-bold text-gray-800 mb-6">
-          Login to your Account
-        </h2>
-
-        {/* Error Message */}
+        {/* Error */}
         {error && (
-          <p className="text-red-600 bg-red-50 border border-red-200 text-sm rounded-md p-2 mb-4 text-center">
+          <div className="mb-4 text-sm text-red-700 bg-red-100 border border-red-200 rounded-md px-3 py-2 text-center">
             {error}
-          </p>
+          </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} noValidate className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Email Address
+            <label className="block text-sm font-medium text-[#f3030b] mb-1">
+              Email
             </label>
             <input
-              id="email"
               type="email"
-              name="email"
-              autoComplete="email"
-              required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full rounded-md border border-[#cbb88a] bg-white px-3 py-2 text-sm
+              focus:outline-none focus:ring-2 focus:ring-[#8b6b2f]"
             />
           </div>
 
           <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
+            <label className="block text-sm font-medium text-[#3a2a12] mb-1">
               Password
             </label>
             <input
-              id="password"
               type="password"
-              name="password"
-              required
-              autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full rounded-md border border-[#cbb88a] bg-white px-3 py-2 text-sm
+              focus:outline-none focus:ring-2 focus:ring-[#8b6b2f]"
             />
           </div>
 
-          <div className="flex items-center justify-between">
-            <label className="flex items-center text-sm text-gray-700">
+          <div className="flex items-center justify-between text-sm">
+            <label className="flex items-center gap-2 text-[#3a2a12]">
               <input
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="mr-2 accent-blue-600"
               />
               Stay signed in
             </label>
+
+            <Link
+              to="/forgot-password"
+              className="text-[#8b6b2f] hover:underline font-medium"
+            >
+              Forgot password?
+            </Link>
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            aria-busy={loading}
-            className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-md transition-colors disabled:opacity-70"
+            className="w-full mt-4 rounded-lg bg-[#8b6b2f] py-2.5 text-sm font-semibold
+            text-white hover:bg-[#745726] transition disabled:opacity-70"
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading ? "Signing in..." : "Sign In"}
           </button>
         </form>
 
-        {/* Links */}
-        <div className="text-center mt-6 space-x-4">
-          <Link
-            to="/forgot-password"
-            className="text-blue-600 hover:underline text-sm font-medium"
-          >
-            Forgot Password?
-          </Link>
+        <p className="text-center text-sm text-[#3a2a12] mt-6">
+          Don’t have an account?{" "}
           <Link
             to="/create-account"
-            className="text-blue-600 hover:underline text-sm font-medium"
+            className="text-[#8b6b2f] font-medium hover:underline"
           >
-            Create Account
+            Create one
           </Link>
-        </div>
+        </p>
       </div>
     </div>
   );
+
 };
 
 export default LoginPage;

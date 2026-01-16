@@ -62,11 +62,30 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+    <div className="min-h-screen relative flex items-center justify-center bg-[#183f4a] overflow-hidden">
+      <div className="absolute top-0 left-0 w-64 h-64 opacity-200 pointer-events-none">
+        <div className="w-full h-full border-l-4 border-t-4 border-[#c9a24d] rounded-tl-[4rem]" />
+      </div>
+
+      <div className="absolute top-0 right-0 w-64 h-64 opacity-200 pointer-events-none">
+        <div className="w-full h-full border-r-4 border-t-4 border-[#c9a24d] rounded-tr-[4rem]" />
+      </div>
+
+      <div className="absolute bottom-0 left-0 w-64 h-64 opacity-200 pointer-events-none">
+        <div className="w-full h-full border-l-4 border-b-4 border-[#c9a24d] rounded-bl-[4rem]" />
+      </div>
+
+      <div className="absolute bottom-0 right-0 w-64 h-64 opacity-200 pointer-events-none">
+        <div className="w-full h-full border-r-4 border-b-4 border-[#c9a24d] rounded-br-[4rem]" />
+      </div>
+
+      <div className="absolute inset-0 flex m-20 justify-center pointer-events-none">
+        <h1 className="text-[6rem] sm:text-[8rem] font-extrabold tracking-widest text-[#e6d3a3] opacity-[0.70] select-none">
+          RESET PASSWORD
+        </h1>
+      </div>
+
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 text-center">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
-          Reset Password
-        </h2>
         <p className="text-gray-600 text-sm mb-6">
           Enter your new password below to complete the reset process.
         </p>

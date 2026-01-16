@@ -25,7 +25,6 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element ={<LoginPage />}/>
-          {/*<Route path="/home" element = {<Index />}/> */}
           <Route path="/forgot-password" element ={<ForgotPassword />} />
           
           
@@ -33,10 +32,10 @@ const App = () => (
           <Route path="/search" element={<SearchPage />} />
           
           {/* Protected Route so users can not access home page without logging in */}
-          <Route path="/home"element={<ProtectedRoute><Index /></ProtectedRoute>}/>
-          <Route path="/verify-otp" element={<ProtectedRoute><VerifyOtp /></ProtectedRoute>} /> 
-          <Route path="/reset-password" element={<ProtectedRoute><ResetPassword /></ProtectedRoute>} />
-          <Route path="/assistant" element={<ProtectedRoute><LibraryAssistant /></ProtectedRoute>}/>
+          <Route path="/home"element={<Index />}/>
+          <Route path="/verify-otp" element={<VerifyOtp />} /> 
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/assistant" element={<LibraryAssistant />}/>
           
           {/* Add this new route for AI chatbot */}
           <Route path="/create-account" element={<CreateAccount />} />
