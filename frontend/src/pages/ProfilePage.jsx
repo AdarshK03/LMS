@@ -1,7 +1,10 @@
+import Navbar from "@/components/Navbar.jsx";
+
 const ProfilePage = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-sm p-6">
+      <Navbar />  
+      <div className="max-w-7xl my-20 mx-auto bg-white rounded-xl shadow-sm p-6">
 
         {/* ───────── Header ───────── */}
         <div className="flex items-start justify-between mb-8">

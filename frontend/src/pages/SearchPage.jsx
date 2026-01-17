@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Navbar from "@/components/Navbar.jsx";
 
 const booksData = [
   { category: "DYSTOPIAN", title: "1984", author: "George Orwell", isbn: "9780451524935", stock: "0 / 8", status: "Issued" },
@@ -28,10 +29,11 @@ export default function SearchPage() {
   });
 
   return (
+    
     <div className="min-h-screen bg-gray-100 p-8">
-
+      <Navbar />
       {/* HEADER */}
-      <div className="bg-white rounded-2xl p-6 flex justify-between items-center shadow">
+      <div className="bg-white my-20 rounded-2xl p-6 flex justify-between items-center shadow">
         <div>
           <h1 className="text-2xl font-bold flex items-center gap-2">
             📚 Library Catalog
@@ -40,9 +42,7 @@ export default function SearchPage() {
             Search and manage library books with ease.
           </p>
         </div>
-        <button className="border px-4 py-2 rounded-lg bg-white hover:bg-gray-50">
-          + Add Book
-        </button>
+        
       </div>
 
       {/* SEARCH BAR */}
