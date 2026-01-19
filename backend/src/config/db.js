@@ -1,10 +1,8 @@
 // src/config/db.js
 import { Sequelize } from "sequelize";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 const sequelize = process.env.DATABASE_URL
+
   ? new Sequelize(process.env.DATABASE_URL, {
     dialect: "postgres",
     dialectOptions: {
@@ -15,6 +13,7 @@ const sequelize = process.env.DATABASE_URL
     },
     logging: false,
   })
+  
   : new Sequelize(
     process.env.DB_NAME,
     process.env.DB_USER,

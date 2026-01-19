@@ -1,5 +1,6 @@
 import sequelize from "./src/config/db.js";
 import Otp from "./src/models/otpModel.js";
+import "./src/models/Book.js";
 
 (async () => {
   try {

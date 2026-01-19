@@ -1,13 +1,12 @@
 import express from "express";
-import dotenv from "dotenv";
 import sequelize from "./src/config/db.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
 import authRoutes from "./src/routes/authRoutes.js";
 import userRoutes from "./src/routes/userRoutes.js";
+import bookRoutes from "./src/routes/bookRoutes.js";
 
-dotenv.config();
 
 const app = express();
 
@@ -30,6 +29,8 @@ app.get("/", (req, res) => {
 // ✅ Auth routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/books", bookRoutes);
+
 
 // ✅ Connect & Sync Database
 (async () => {
