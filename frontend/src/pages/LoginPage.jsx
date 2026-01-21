@@ -13,50 +13,51 @@ const LoginPage = () => {
   const [rememberMe, setRememberMe] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+  e.preventDefault();
+  setError("");
 
-    if (!email.trim() || !password) {
-      setError("Please enter an e-mail and a password.");
-      return;
-    }
+  if (!email.trim() || !password) {
+    setError("Please enter an e-mail and a password.");
+    return;
+  }
 
-    setLoading(true);
-    try {
-      const res = await fetch(`${API_BASE}/api/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          email: email.trim().toLowerCase(),
-          password,
-          rememberMe,
-        }),
-      });
+  setLoading(true);
+  try {
+    const res = await fetch(`${API_BASE}/api/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email.trim().toLowerCase(),
+        password,
+        rememberMe,
+      }),
+    });
 
-      const data =
-        (res.headers.get("content-type") || "").includes("application/json")
-          ? await res.json()
-          : null;
+    const data =
+      (res.headers.get("content-type") || "").includes("application/json")
+        ? await res.json()
+        : null;
 
-      if (res.ok) {
-        if (data && data.token) {
-          localStorage.setItem("auth_token", data.token);
-        }
-        navigate("/home");
-      } else {
-        setError(
-          (data && data.error) ||
-            (res.status === 401 ? "Invalid Credentials." : "Login Failed")
-        );
+    if (res.ok) {
+      if (data?.token) {
+        // ✅ FIXED KEY
+        localStorage.setItem("token", data.token);
       }
-    } catch (err) {
-      console.error("Login Error:", err);
-      setError("Network Error - please try again.");
-    } finally {
-      setLoading(false);
+      navigate("/home");
+    } else {
+      setError(
+        (data && data.error) ||
+          (res.status === 401 ? "Invalid Credentials." : "Login Failed")
+      );
     }
-  };
+  } catch (err) {
+    console.error("Login Error:", err);
+    setError("Network Error - please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   // .....................................................................................
 //   // ...........first design...........
