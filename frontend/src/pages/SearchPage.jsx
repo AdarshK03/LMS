@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Navbar from "../components/Navbar";
 
 const SearchPage = () => {
   const [query, setQuery] = useState("");
@@ -39,8 +40,10 @@ const SearchPage = () => {
   };
 
   return (
+
     <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-7xl mx-auto">
+          <Navbar/>
+      <div className="max-w-7xl m-20 mx-auto">
         {/* Header */}
         <div className="bg-white p-6 rounded-lg shadow mb-6">
           <h2 className="text-2xl font-bold mb-1 flex items-center gap-2">

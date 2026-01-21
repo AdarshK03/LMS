@@ -21,20 +21,20 @@ const Navbar = () => {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center gap-12">
-            <a href="#home" className="text-foreground hover:text-primary transition-smooth">
-              Home
-            </a>
+            <button
+            onClick={() => navigate("/home")}>
+              home
+              </button>
            <button 
            onClick={() => navigate("/search")}
            className="text-foreground hover:text-primary transition-smooth">
               Search
             </button>
-            <a href="#recommendations" className="text-foreground hover:text-primary transition-smooth">
+            <button
+            onClick={() => navigate("/assistant")}>
               Recommendations
-            </a>
-            <a href="#my-library" className="text-foreground hover:text-primary transition-smooth">
-              My Library
-            </a>
+            </button>
+            
             <button 
             onClick={() => navigate("/profile")}
             className="text-foreground hover:text-primary transition-smooth">
