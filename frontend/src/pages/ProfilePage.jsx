@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar.jsx";
+import md5 from "md5";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
@@ -62,6 +63,11 @@ const ProfilePage = () => {
     );
   }
 
+  // 🔥 Gravatar URL
+  const avatarUrl = `https://www.gravatar.com/avatar/${md5(
+    user.email.trim().toLowerCase()
+  )}?d=identicon&s=200`;
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <Navbar />
@@ -71,7 +77,7 @@ const ProfilePage = () => {
         <div className="flex items-start justify-between mb-8">
           <div className="flex items-center gap-4">
             <img
-              src="AVATAR_URL_HERE"
+              src={avatarUrl}
               alt="User"
               className="w-14 h-14 rounded-full object-cover"
             />
