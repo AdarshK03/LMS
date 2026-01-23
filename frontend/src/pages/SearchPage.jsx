@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
 const MOCK_BOOKS = Array.from({ length: 20 }, (_, i) => ({
@@ -13,6 +14,8 @@ const MOCK_BOOKS = Array.from({ length: 20 }, (_, i) => ({
 }));
 
 const SearchPage = () => {
+  const navigate = useNavigate();
+
   const [query, setQuery] = useState("");
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -21,7 +24,7 @@ const SearchPage = () => {
   const [selectedBook, setSelectedBook] = useState(null);
 
   useEffect(() => {
-    setBooks(MOCK_BOOKS); // initial load (can be removed later)
+    setBooks(MOCK_BOOKS);
   }, []);
 
   const handleSearch = async () => {
@@ -131,8 +134,14 @@ const SearchPage = () => {
                     ℹ️ Details
                   </button>
 
+                  {/* ✅ FIXED ISSUE BUTTON */}
                   <button
                     disabled={!isAvailable}
+                    onClick={() =>
+                      navigate(`/issue-book/${book.id}`, {
+                        state: { book }, // 🔥 THIS IS THE KEY FIX
+                      })
+                    }
                     className={`flex-1 py-2 rounded-md text-sm ${
                       isAvailable
                         ? "bg-black text-white hover:bg-gray-800"
@@ -148,7 +157,7 @@ const SearchPage = () => {
         </div>
       </div>
 
-      {/* MODAL */}
+      {/* Details Modal */}
       {isModalOpen && selectedBook && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div
@@ -176,7 +185,9 @@ const SearchPage = () => {
             <div className="space-y-3 text-sm text-gray-700">
               <div>
                 <p className="text-xs text-gray-500 uppercase">Title</p>
-                <p className="font-semibold text-base">{selectedBook.title}</p>
+                <p className="font-semibold text-base">
+                  {selectedBook.title}
+                </p>
               </div>
 
               <div>

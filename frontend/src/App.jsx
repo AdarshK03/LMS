@@ -14,6 +14,7 @@ import ProtectedRoute from "./components/ProtectedRoutes.jsx";
 import VerifyOtp from "./pages/VerifyOTP.jsx";
 import ResetPassword from "./pages/ResetPassword";
 import LibraryAssistant from "./components/LibraryAssistant";
+import IssueBook from "./pages/IssueBook.jsx";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/verify-otp" element={<VerifyOtp />} /> 
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/assistant" element={<LibraryAssistant />}/>
+          <Route path="/issue-book/:bookId" element={<IssueBook />} />
           
           {/* Add this new route for AI chatbot */}
           <Route path="/create-account" element={<CreateAccount />} />
