@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar.jsx";
-import md5 from "md5";
+// import md5 from "md5";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);

@@ -2,19 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
-const MOCK_BOOKS = Array.from({ length: 20 }, (_, i) => ({
-  id: i + 1,
-  title: `Sample Book ${i + 1}`,
-  author: `Author ${i + 1}`,
-  isbn: `978-0000-${i + 1}`,
-  publisher: i % 2 === 0 ? "O'Reilly" : "Pearson",
-  year: 2015 + (i % 8),
-  location: `Shelf ${String.fromCharCode(65 + (i % 5))}-${i + 1}`,
-  copies: i % 3 === 0 ? 0 : Math.floor(Math.random() * 5) + 1,
-}));
+
+
 
 const SearchPage = () => {
+
   const navigate = useNavigate();
+
 
   const [query, setQuery] = useState("");
   const [books, setBooks] = useState([]);
@@ -23,10 +17,7 @@ const SearchPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
 
-  useEffect(() => {
-    setBooks(MOCK_BOOKS);
-  }, []);
-
+  
   const handleSearch = async () => {
     if (!query.trim()) return;
 
