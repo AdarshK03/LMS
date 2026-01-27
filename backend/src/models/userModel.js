@@ -20,9 +20,19 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    role: {
+      type: DataTypes.ENUM("USER", "ADMIN", "SUPER_ADMIN"),
+      allowNull: false,
+      defaultValue: "USER"
+    },
+    status: {
+      type: DataTypes.ENUM("ACTIVE", "BLOCKED", "SUSPENDED"),
+      allowNull: false,
+      defaultValue: "ACTIVE"
+    }
   },
   {
-    tableName: "Users", // ✅ match your existing table name
+    tableName: "Users", // match your existing table name
     timestamps: true,
   }
 );

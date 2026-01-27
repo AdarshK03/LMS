@@ -6,7 +6,7 @@ import cors from "cors";
 import helmet from "helmet";
 import authRoutes from "./src/routes/authRoutes.js";
 import userRoutes from "./src/routes/userRoutes.js";
-// import bookRoutes from "./src/routes/bookRoutes.js";
+import bookRoutes from "./src/routes/bookRoutes.js";
 
 const app = express();
 
