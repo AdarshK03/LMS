@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import bg from "@/assets/lib.jpg";
+import heroBg from "@/assets/hero-bg.jpg";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 
-const LoginPage = () => {
+const AdminLogin = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -59,11 +59,21 @@ const LoginPage = () => {
 };
 
 
-  // .....................................................................................
-//   // ...........first design...........
+  
   return (
+    
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-indigo-100 p-6">
-      <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
+      <div 
+        className="absolute inset-0 z-0 opacity-35 pointer-events-none"
+        style={{
+          backgroundImage: `url(${heroBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        
+       </div>
+      <div className="w-full max-w-md bg-gray-950 shadow-xl rounded-2xl p-8">
         {/* Logo */}
         <div className="flex items-center justify-center mb-8">
           <svg
@@ -82,13 +92,13 @@ const LoginPage = () => {
               strokeLinecap="round"
             />
           </svg>
-          <span className="text-2xl font-bold text-gray-800">
+          <span className="text-2xl font-bold text-white">
             SmartLibrary AI
           </span>
         </div>
 
         {/* Title */}
-        <h2 className="text-center text-xl font-bold text-gray-800 mb-6">
+        <h2 className="text-center text-xl font-bold text-white mb-6">
           Login to your Account
         </h2>
 
@@ -104,7 +114,7 @@ const LoginPage = () => {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-white mb-1"
             >
               Email Address
             </label>
@@ -117,14 +127,14 @@ const LoginPage = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
 
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-white mb-1"
             >
               Password
             </label>
@@ -137,12 +147,12 @@ const LoginPage = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
 
           <div className="flex items-center justify-between">
-            <label className="flex items-center text-sm text-gray-700">
+            <label className="flex items-center text-sm text-white">
               <input
                 type="checkbox"
                 checked={rememberMe}
@@ -153,9 +163,9 @@ const LoginPage = () => {
             </label>
             <div className ="w-8/12 flex justify-end">
                 <button 
-                onClick={()=> navigate("/admin-login")}
+                onClick={()=> navigate("/")}
                 className="w-5/12 py-2.5 bg-gray-500 hover:bg-gray-700 text-white font-semibold text-sm rounded-md transition-colors disabled:opacity-70">
-                Admin Login
+                Student Login
                 </button>
             </div>
           </div>
@@ -191,4 +201,4 @@ const LoginPage = () => {
 };
 
 
-export default LoginPage;
+export default AdminLogin;
