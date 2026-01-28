@@ -125,12 +125,12 @@ const SearchPage = () => {
                     ℹ️ Details
                   </button>
 
-                  {/* ✅ FIXED ISSUE BUTTON */}
+                  
                   <button
                     disabled={!isAvailable}
                     onClick={() =>
                       navigate(`/issue-book/${book.id}`, {
-                        state: { book }, // 🔥 THIS IS THE KEY FIX
+                        state: { book }, 
                       })
                     }
                     className={`flex-1 py-2 rounded-md text-sm ${

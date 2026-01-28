@@ -1,25 +1,33 @@
-import React from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
 import Navbar from "../components/Navbar";
 import IssueBookModal from "../components/IssueBookModal";
 
 const IssueBook = () => {
   const { bookId } = useParams();
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
 
-  // 🔥 Actual book passed from SearchPage
   const book = location.state?.book;
 
-  // Safety check (direct URL access)
-  if (!book) {
-    navigate("/search");
+  // 🚨 Safety: direct URL access
+  if (!book || String(book.id) !== String(bookId)) {
+    navigate("/search", { replace: true });
     return null;
   }
 
+  const [reservation, setReservation] = useState(null);
+
   const handleConfirm = () => {
-    alert("Reservation code will be generated next");
-    navigate("/search");
+    const now = new Date();
+
+    const reservationData = {
+      reservationCode: Math.random().toString(36).substring(2, 8).toUpperCase(),
+      createdAt: now.toISOString(),
+      expiresAt: new Date(now.getTime() + 30 * 60000).toISOString(), // 30 mins
+    };
+
+    setReservation(reservationData);
   };
 
   const handleCancel = () => {
@@ -32,8 +40,9 @@ const IssueBook = () => {
 
       <IssueBookModal
         book={book}
+        reservation={reservation}
         onConfirm={handleConfirm}
-        onCancel={handleCancel}
+        onClose={handleCancel}
       />
     </div>
   );

@@ -64,7 +64,7 @@ const ProfilePage = () => {
   }
 
   // 🔥 Gravatar URL
-  const avatarUrl = `https://www.gravatar.com/avatar/${md5(
+  const avatarUrl = `https://www.gravatar.com/avatar/${(
     user.email.trim().toLowerCase()
   )}?d=identicon&s=200`;
 
