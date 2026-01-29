@@ -21,7 +21,7 @@ const authMiddleware = async (req, res, next) => {
 
     // ✅ Fetch user
     const user = await User.findByPk(decoded.id, {
-      attributes: ["id", "name", "email"],
+      attributes: ["id", "name", "email", "role", "status"],
     });
 
     if (!user) {

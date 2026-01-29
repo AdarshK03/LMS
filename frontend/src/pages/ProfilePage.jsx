@@ -64,13 +64,9 @@ const ProfilePage = () => {
   }
 
   // 🔥 Gravatar URL
-<<<<<<< HEAD
-  const avatarUrl = `https://www.gravatar.com/avatar/?d=identicon&s=200`;
-=======
   const avatarUrl = `https://www.gravatar.com/avatar/${(
     user.email.trim().toLowerCase()
   )}?d=identicon&s=200`;
->>>>>>> 26967af2c8b1fc657be78db78f310de441e19534
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">

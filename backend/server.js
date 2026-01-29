@@ -9,8 +9,36 @@ import authRoutes from "./src/routes/authRoutes.js";
 import userRoutes from "./src/routes/userRoutes.js";
 import bookRoutes from "./src/routes/bookRoutes.js";
 import reservationRoutes from "./src/routes/reservationRoutes.js"; 
+import User from "./src/models/userModel.js";
+import bcrypt from "bcryptjs";
 
 const app = express();
+
+// superadmin
+export const ensureSuperAdminExists = async () => {
+  const email = process.env.SUPER_ADMIN_EMAIL;
+
+  const exists = await User.findOne({
+    where: { role: "SUPER_ADMIN" },
+  });
+
+  if (!exists) {
+    const hashedPassword = await bcrypt.hash(
+      process.env.SUPER_ADMIN_PASSWORD,
+      10
+    );
+
+    await User.create({
+      name: "Super Admin",
+      email,
+      password: hashedPassword,
+      role: "SUPER_ADMIN",
+      status: "ACTIVE",
+    });
+
+    console.log("✅ Super Admin auto-created");
+  }
+};
 
 // ✅ CORS MUST come first (for cookies)
 app.use(
@@ -45,6 +73,7 @@ app.use("/api/reservations", reservationRoutes);
 
     await sequelize.sync({ alter: true });
     console.log("✅ Models synchronized with PostgreSQL");
+    await ensureSuperAdminExists();
 
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () =>
@@ -55,3 +84,5 @@ app.use("/api/reservations", reservationRoutes);
     process.exit(1);
   }
 })();
+
+
