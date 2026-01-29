@@ -17,6 +17,7 @@ import LibraryAssistant from "./components/LibraryAssistant";
 import IssueBook from "./pages/IssueBook.jsx";
 import AdminLogin from "./pages/AdminLogin.jsx";
 import AdminPage from "./pages/AdminPage.jsx";
+import IssueBookFinal from "./pages/IssueBookFinal.jsx";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
           <Route path="/assistant" element={<LibraryAssistant />}/>
           <Route path="/issue-book/:bookId" element={<IssueBook />} />
           <Route path="/create-account" element={<CreateAccount />} />
+          <Route path="/issue-book/:bookId" element={<IssueBookFinal />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
