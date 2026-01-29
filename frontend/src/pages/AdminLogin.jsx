@@ -40,10 +40,16 @@ const AdminLogin = () => {
 
     if (res.ok) {
       if (data?.token) {
-        // ✅ FIXED KEY
         localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
       }
-      navigate("/home");
+      if (data.user.role !== "ADMIN" && data.user.role !== "SUPER_ADMIN") {
+        localStorage.removeItem("token")
+        localStorage.removeItem("user")
+        setError("You are not authorized to access admin panel")
+        return
+      }
+      navigate("/admin-page");
     } else {
       setError(
         (data && data.error) ||
