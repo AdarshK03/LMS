@@ -20,6 +20,10 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    mobile: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     role: {
       type: DataTypes.ENUM("USER", "ADMIN", "SUPER_ADMIN"),
       allowNull: false,

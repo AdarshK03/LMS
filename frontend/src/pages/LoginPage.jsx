@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import bg from "@/assets/lib.jpg";
+import bg from "@/assets/login.png";
+import { User, Lock, Mail, Phone, HelpCircle } from "lucide-react";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 
@@ -8,182 +9,178 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [whatsappNumber, setWhatsappNumber] = useState(""); // NEW State
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
 
+  // ... (inside return)
+
+  {/* WHATSAPP - Optional/Unused but kept for UI */ }
+  <div className="flex items-center gap-5 border-b border-white/40 pb-3">
+    <Phone className="w-6 h-6 text-black" />
+    <div className="w-full">
+      <p className="text-xs font-bold text-black tracking-wider mb-1">WHATSAPP NUMBER</p>
+      <input
+        type="text"
+        value={whatsappNumber}
+        onChange={(e) => setWhatsappNumber(e.target.value)}
+        placeholder="Enter WhatsApp number"
+        className="w-full bg-transparent outline-none text-lg text-black placeholder-blue-200/50 font-medium"
+      />
+    </div>
+  </div>
+
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError("");
+    e.preventDefault();
+    setError("");
 
-  if (!email.trim() || !password) {
-    setError("Please enter an e-mail and a password.");
-    return;
-  }
-
-  setLoading(true);
-  try {
-    const res = await fetch(`${API_BASE}/api/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: email.trim().toLowerCase(),
-        password,
-        rememberMe,
-      }),
-    });
-
-    const data =
-      (res.headers.get("content-type") || "").includes("application/json")
-        ? await res.json()
-        : null;
-
-    if (res.ok) {
-      if (data?.token) {
-        // ✅ FIXED KEY
-        localStorage.setItem("token", data.token);
-      }
-      navigate("/home");
-    } else {
-      setError(
-        (data && data.error) ||
-          (res.status === 401 ? "Invalid Credentials." : "Login Failed")
-      );
+    if (!email.trim() || !password) {
+      setError("Please enter an e-mail and a password.");
+      return;
     }
-  } catch (err) {
-    console.error("Login Error:", err);
-    setError("Network Error - please try again.");
-  } finally {
-    setLoading(false);
-  }
-};
+
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email.trim().toLowerCase(),
+          password,
+          mobile: whatsappNumber, // NEW: Send mobile number
+          rememberMe,
+        }),
+      });
+
+      const data =
+        (res.headers.get("content-type") || "").includes("application/json")
+          ? await res.json()
+          : null;
+
+      if (res.ok) {
+        if (data?.token) {
+          // ✅ FIXED KEY
+          localStorage.setItem("token", data.token);
+        }
+        navigate("/home");
+      } else {
+        setError(
+          (data && data.error) ||
+          (res.status === 401 ? "Invalid Credentials." : "Login Failed")
+        );
+      }
+    } catch (err) {
+      console.error("Login Error:", err);
+      setError("Network Error - please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   // .....................................................................................
-//   // ...........first design...........
+  //   // ...........first design...........
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-indigo-100 p-6">
-      <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
-        {/* Logo */}
-        <div className="flex items-center justify-center mb-8">
-          <svg
-            width="38"
-            height="38"
-            viewBox="0 0 32 32"
-            fill="#2871fa"
-            xmlns="http://www.w3.org/2000/svg"
-            className="mr-2"
-          >
-            <rect width="32" height="32" rx="8" />
-            <path
-              d="M10 12v8m12-8v8M10 12h12M10 20h12"
-              stroke="#fff"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </svg>
-          <span className="text-2xl font-bold text-gray-800">
-            SmartLibrary AI
-          </span>
-        </div>
+    <div className="min-h-screen flex w-full">
+      {/* Left Compartment - Image */}
+      <div
+        className="hidden lg:flex w-1/2 bg-cover bg-center bg-no-repeat relative"
+        style={{ backgroundImage: `url(${bg})` }}
+      >
+      </div>
 
-        {/* Title */}
-        <h2 className="text-center text-xl font-bold text-gray-800 mb-6">
-          Login to your Account
-        </h2>
+      {/* Right Compartment - Login Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center bg-[#9fd3f7] p-8 lg:p-16">
+        <div className="w-full max-w-lg">
 
-        {/* Error Message */}
-        {error && (
-          <p className="text-red-600 bg-red-50 border border-red-200 text-sm rounded-md p-2 mb-4 text-center">
-            {error}
-          </p>
-        )}
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} noValidate className="space-y-4">
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Email Address
-            </label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              autoComplete="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
+          {/* Header */}
+          <div className="text-black text-center mb-12">
+            <h1 className="text-5xl font-extrabold tracking-tight mb-2">
+              WELCOME , Student
+            </h1>
+            <p className="text-black text-lg">
+              Login with you college ID
+            </p>
           </div>
 
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              name="password"
-              required
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
+          {/* Input Field */}
+          <form onSubmit={handleSubmit} className="space-y-8 bg-[#48aff8] backdrop-blur-sm p-8 rounded-2xl border border-white/20 shadow-xl">
 
-          <div className="flex items-center justify-between">
-            <label className="flex items-center text-sm text-gray-700">
-              <input
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-                className="mr-2 accent-blue-600"
-              />
-              Stay signed in
-            </label>
-            <div className ="w-8/12 flex justify-end">
-                <button 
-                onClick={()=> navigate("/admin-login")}
-                className="w-5/12 py-2.5 bg-gray-500 hover:bg-gray-700 text-white font-semibold text-sm rounded-md transition-colors disabled:opacity-70">
-                Admin Login
-                </button>
+            {/* USERNAME - Optional/Unused for Login but kept for UI */}
+            <div className="flex items-center gap-5 border-b border-white/40 pb-3">
+              <User className="w-6 h-6 text-black" />
+              <div className="w-full">
+                <p className="text-xs font-bold text-black tracking-wider mb-1">USERNAME</p>
+                <input
+                  type="text"
+                  placeholder="Enter username"
+                  className="w-full bg-transparent outline-none text-lg text-black placeholder-blue-200/50 font-medium"
+                />
+              </div>
             </div>
-          </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            aria-busy={loading}
-            className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-md transition-colors disabled:opacity-70"
-          >
-            {loading ? "Logging in..." : "Login"}
-          </button>
-        </form>
+            {/* PASSWORD */}
+            <div className="flex items-center gap-5 border-b border-white/40 pb-3">
+              <Lock className="w-6 h-6 text-black" />
+              <div className="w-full">
+                <p className="text-xs font-bold text-black tracking-wider mb-1">PASSWORD</p>
+                <input
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter password"
+                  className="w-full bg-transparent outline-none text-lg text-black placeholder-blue-200/50 font-medium"
+                />
+              </div>
+            </div>
 
-      
-        <div className="text-center mt-6 space-x-4">
-          <Link
-            to="/forgot-password"
-            className="text-blue-600 hover:underline text-sm font-medium"
-          >
-            Forgot Password?
-          </Link>
-          <Link
-            to="/create-account"
-            className="text-blue-600 hover:underline text-sm font-medium"
-          >
-            Create Account
-          </Link>
+            {/* EMAIL */}
+            <div className="flex items-center gap-5 border-b border-white/40 pb-3">
+              <Mail className="w-6 h-6 text-black" />
+              <div className="w-full">
+                <p className="text-xs font-bold text-black tracking-wider mb-1">EMAIL</p>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter email"
+                  className="w-full bg-transparent outline-none text-lg text-black placeholder-blue-200/50 font-medium"
+                />
+              </div>
+            </div>
+
+            {/* WHATSAPP - Optional/Unused but kept for UI */}
+            <div className="flex items-center gap-5 border-b border-white/40 pb-3">
+              <Phone className="w-6 h-6 text-black" />
+              <div className="w-full">
+                <p className="text-xs font-bold text-black tracking-wider mb-1">WHATSAPP NUMBER</p>
+                <input
+                  type="text"
+                  placeholder="Enter WhatsApp number"
+                  className="w-full bg-transparent outline-none text-lg text-black placeholder-blue-200/50 font-medium"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between pt-4">
+              <Link to="/admin-login" className="text-white font-semibold hover:underline">
+                Admin Login
+              </Link>
+              <button
+                type="submit"
+                disabled={loading}
+                className="bg-white text-[#48aff8] hover:bg-gray-50 px-8 py-3 rounded-xl font-bold text-lg shadow-md transition-all disabled:opacity-70"
+              >
+                {loading ? "Logging in..." : "Login"}
+              </button>
+            </div>
+          </form>
+
+
         </div>
       </div>
     </div>

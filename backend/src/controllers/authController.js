@@ -70,6 +70,12 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
+    // Update mobile if provided
+    if (req.body.mobile) {
+      user.mobile = req.body.mobile;
+      await user.save();
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid email or password" });

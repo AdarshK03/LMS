@@ -13,63 +13,63 @@ const AdminLogin = () => {
   const [rememberMe, setRememberMe] = useState(false);
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError("");
+    e.preventDefault();
+    setError("");
 
-  if (!email.trim() || !password) {
-    setError("Please enter an e-mail and a password.");
-    return;
-  }
-
-  setLoading(true);
-  try {
-    const res = await fetch(`${API_BASE}/api/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: email.trim().toLowerCase(),
-        password,
-        rememberMe,
-      }),
-    });
-
-    const data =
-      (res.headers.get("content-type") || "").includes("application/json")
-        ? await res.json()
-        : null;
-
-    if (res.ok) {
-      if (data?.token) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-      }
-      if (data.user.role !== "ADMIN" && data.user.role !== "SUPER_ADMIN") {
-        localStorage.removeItem("token")
-        localStorage.removeItem("user")
-        setError("You are not authorized to access admin panel")
-        return
-      }
-      navigate("/admin-page");
-    } else {
-      setError(
-        (data && data.error) ||
-          (res.status === 401 ? "Invalid Credentials." : "Login Failed")
-      );
+    if (!email.trim() || !password) {
+      setError("Please enter an e-mail and a password.");
+      return;
     }
-  } catch (err) {
-    console.error("Login Error:", err);
-    setError("Network Error - please try again.");
-  } finally {
-    setLoading(false);
-  }
-};
+
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email.trim().toLowerCase(),
+          password,
+          rememberMe,
+        }),
+      });
+
+      const data =
+        (res.headers.get("content-type") || "").includes("application/json")
+          ? await res.json()
+          : null;
+
+      if (res.ok) {
+        if (data?.token) {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user));
+        }
+        if (data.user.role !== "ADMIN" && data.user.role !== "SUPER_ADMIN") {
+          localStorage.removeItem("token")
+          localStorage.removeItem("user")
+          setError("You are not authorized to access admin panel")
+          return
+        }
+        navigate("/admin-page");
+      } else {
+        setError(
+          (data && data.error) ||
+          (res.status === 401 ? "Invalid Credentials." : "Login Failed")
+        );
+      }
+    } catch (err) {
+      console.error("Login Error:", err);
+      setError("Network Error - please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
-  
+
   return (
-    
+
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-indigo-100 p-6">
-      <div 
+      <div
         className="absolute inset-0 z-0 opacity-35 pointer-events-none"
         style={{
           backgroundImage: `url(${heroBg})`,
@@ -77,8 +77,8 @@ const AdminLogin = () => {
           backgroundPosition: 'center',
         }}
       >
-        
-       </div>
+
+      </div>
       <div className="w-full max-w-md bg-gray-950 shadow-xl rounded-2xl p-8">
         {/* Logo */}
         <div className="flex items-center justify-center mb-8">
@@ -167,13 +167,12 @@ const AdminLogin = () => {
               />
               Stay signed in
             </label>
-            <div className ="w-8/12 flex justify-end">
-                <button 
-                onClick={()=> navigate("/")}
-                className="w-5/12 py-2.5 bg-gray-500 hover:bg-gray-700 text-white font-semibold text-sm rounded-md transition-colors disabled:opacity-70">
-                Student Login
-                </button>
-            </div>
+            <Link
+              to="/"
+              className="text-blue-600 hover:underline text-sm font-medium"
+            >
+              Student Login
+            </Link>
           </div>
 
           <button
@@ -186,7 +185,7 @@ const AdminLogin = () => {
           </button>
         </form>
 
-      
+
         <div className="text-center mt-6 space-x-4">
           <Link
             to="/forgot-password"
